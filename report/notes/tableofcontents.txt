@@ -1,0 +1,9 @@
+Cover Page (team number, member names)
+1. one page executive summary (business problem, data, analytics solution, implication, recommendations)
+2. Problem Description (business goal, data mining goal)
+3. Data Description + Data Preparation (brief data preparation details, key charts, details in appendix)
+4. Descriptive Analytics / KPIs / Cluster Analysis / Predictive Analytics
+(applied methods in detail, performance evaluation
+5. Conclusion 
+(advantages, limitations, business recommendations) 
+supplementary document with contributions

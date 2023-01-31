@@ -1,0 +1,8 @@
+/output/*
+
+# Always commit the main PDF for fast access
+!/output/main.pdf 
+
+indent.log
+
+svg-inkscape/

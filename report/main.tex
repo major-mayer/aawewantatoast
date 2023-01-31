@@ -1,0 +1,127 @@
+% This is the main document file, it references all chapers that can be found in the "chapters" folder
+\documentclass[12pt, twoside]{scrreprt}
+
+% Packages
+\usepackage[babelshorthands]{polyglossia} % English language settings
+\setdefaultlanguage[variant=british]{english}
+\usepackage[autostyle=true,english=british]{csquotes} % Quotation marks with enquote
+  \MakeOuterQuote{"} % Automatically transforms the `"` character to the right quotation marks
+\usepackage[singlespacing]{setspace} % Einfacher Durchschuss/ Zeilenabstand
+\usepackage[a4paper, total={7in, 9in}]{geometry} % 2,6 cm Seitenränder links und rechts
+\usepackage{blindtext} % Lorem Ipsum 
+\usepackage[toc, acronym]{glossaries}
+\usepackage{scrhack} % Avoids warnings when using listings
+\usepackage[draft=false]{microtype} % Better type setting
+\usepackage[titletoc]{appendix} % Makes "appendix" appear in front of each appendinx in the toc
+\usepackage{enumerate}  % for ordered lists
+\usepackage[shortlabels]{enumitem} %... and their customization
+
+% Schriftart Auswahl
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Pagella} %palatino clone
+
+% Package for monospaced code blocks
+\usepackage{listings}
+\lstset{
+    basicstyle=\ttfamily,
+    escapeinside={||}
+}
+\usepackage{amsmath}  % for \hookrightarrow // um zeileinumbrüche zu markieren
+\usepackage{xcolor}   % for \textcolor
+
+% Packages to embed images, svgs, pdf pages
+% Draft
+\PassOptionsToPackage{draft}{graphicx}
+\usepackage[draft]{pdfpages} % Allows to embed PDF pages page-filling (using \includepdf)
+% No Draft
+% \PassOptionsToPackage{}{graphicx}
+% \usepackage[]{pdfpages} % Allows to embed PDF pages page-filling (using \includepdf)
+
+\usepackage{subcaption} % Combine multiple images into one figure with \subfigure
+\graphicspath{{./images/}}
+\usepackage[inkscapearea=page]{svg} % Doku https://ftp.fau.de/ctan/graphics/svg/doc/svg.pdf
+\usepackage{relsize} % um schriftgrößen innerhalb eines svgs relativ zueinander anzupassen
+\svgpath{images/}
+
+
+% Package for active hyperlinks for references and inside the biliography
+\usepackage{bookmark} % Included hyperref automatisch
+\hypersetup{
+  colorlinks   = true, %Colours links instead of ugly boxes
+  urlcolor     = blue, %Colour for external hyperlinks
+  linkcolor    = blue, %Colour of internal links
+  citecolor   = red, %Colour of citations
+  pdftitle = Team We Want a Toast Group 1 - Assignment WS 22/23,
+  pdfauthor = Laurenz Bihlmayer,
+  plainpages=false,
+  bookmarksnumbered=true,
+  bookmarksopen=true,   % Opens all pdf bookmarks until level 1 (section)
+  bookmarksopenlevel=1,
+}
+
+
+% Header and footer with Scrlayer-Scrpage
+\usepackage[headsepline]{scrlayer-scrpage}
+\pagestyle{scrheadings}
+\clearpairofpagestyles
+
+% Show the current title and chapter on the top of each (double) page
+\ohead{\headmark}
+\automark[section]{chapter} %[right side]{left side}
+\ofoot*{\pagemark} %Page number in the footer
+
+% Bibliography
+\usepackage[style=authoryear-ibid, sorting=ynt, maxcitenames=2 ]{biblatex}
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{8000}
+\addbibresource{references.bib}
+
+% Glossary
+\input{glossaries.tex}
+
+
+\begin{document}
+
+% Titlepage
+\pagenumbering{Roman}
+\include{chapters/misc/titlepage.tex}
+
+% Abstracts 
+\include{chapters/misc/executive_summary.tex}
+
+% Table of content
+\microtypesetup{protrusion=false}
+\hypertarget{tableofcontents}{}% set the hypertarget
+\bookmark[dest=tableofcontents,level=chapter]{\contentsname}% add the bookmark
+\tableofcontents
+\microtypesetup{protrusion=true}
+
+% List of figures
+% Two command to make sure the link doesn't point to the start of the section (table of contents)
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{List of figures}
+
+\microtypesetup{protrusion=false}
+\listoffigures
+\microtypesetup{protrusion=true}
+
+% Real content
+\cleardoublepage % A clear double page in front of the page
+\pagenumbering{arabic} % Wechsel des Nummerierungsstils auf arabische Ziffern
+
+\input{chapters/1_problem_description.tex}
+\input{chapters/2_data_description_preparation.tex}
+\input{chapters/3_data_analysis.tex}
+\input{chapters/4_conclusion.tex}
+
+% Bibliography
+\clearpage
+\phantomsection   % Nessecary again, so that the link doesn't point to the conclusion
+\addcontentsline{toc}{chapter}{Literatur}
+\printbibliography
+
+% Appendix
+\input{chapters/5_appendix.tex}
+
+\end{document}

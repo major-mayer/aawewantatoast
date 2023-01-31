@@ -1,0 +1,20 @@
+% Sorgt für eine korrekte Anzeige im PDF Index
+\hypertarget{abstract}{}
+\bookmark[dest=abstract,level=chapter]{Abstract}
+
+\thispagestyle{plain}
+
+\begin{center}
+    \textbf{Executive summary}
+\end{center}
+
+The main objective of this project was to analyze trip data from Lyft's bike rentals in San Francisco for the year 2019 in order to monitor and predict demand. To achieve this, we used three data sets that were cleaned and joined together; these included bike rental data for San Francisco, weather data for 2019 from weather.com, and geodata provided by Lyft's system data for the bike stations. Additionally, we established key performance indicators (KPIs) to monitor the operational performance of the bike fleet.
+
+Through cluster analysis, we were able to gain a deeper understanding of the customer groups and station relevance. We found the following customer groups: \enquote{Nightriders}, which mainly ride in the early morning and late evening hours,  the "Workers" which take a bike to commute to work and lastly the "Midday rides". 
+
+Our findings also showed that the highest demand for bike rentals occurred during the weekday morning and evening rush hours, with the busiest bike stations located in downtown San Francisco. 
+Lastly, we implemented a predictive analysis to forecast demand and optimize the performance of the fleet in the future. For the model, we chose the K-Nearest-Neighbor model, because it showed the best R² value of 0.956773. We also found out, that the lag feature from one week before as well as the \texttt{is\_workday} feature are the most important features for the prediction.
+
+To optimize the performance of the fleet, we recommend that Lyft focus on increasing the availability of bikes at these busy stations during peak hours, as well as providing promotions and incentives for both short-trip and weekend-customers. Additionally, our analysis revealed the existence of two customer clusters: short-trip customers who primarily use bikes for commuting purposes, and weekend-customers who use bikes for leisure and recreation. To better serve these customers, Lyft should consider offering corporate subscriptions for short-trip customers and promotions for long-trip customers on weekends.
+
+The results of our analysis are based on a limited dataset, which includes only one year of bike rental data and lacks information on user demographics and user distinction as distinction. Nevertheless, our findings and recommendations provide a solid foundation for Lyft to improve its bike-sharing service and better meet the needs of its customers.

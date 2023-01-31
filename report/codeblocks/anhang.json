@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "title": "Json-Schema-Titel",
+  "description": "Dieses Json-Schema beschreibt gar nichts.",
+  "required": [
+    "test"
+  ],
+  "properties": {
+   "test" : {
+     "type":"object"
+   }
+  }
+}

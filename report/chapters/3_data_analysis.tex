@@ -1,0 +1,172 @@
+\chapter{Data Analysis}
+
+\section{Descriptive Analysis}
+\subsection{Temporal Demand Patterns} 
+
+We aggregated the variable time on the different hierarchy levels month, weekday and hour. The monthly demand shows no clear trend, probably due to low temperature variation between the seasons in San Francisco. On weekends there is less demand, indicating that bike usage is mainly for trips to and from work. This assumption is supported by the hourly demand patterns. Peaks are at the morning hours around 8am and at around 5pm. Between 1am and 5am, demand is at a minimum. 
+
+\begin{figure}[hbtp]
+    \includegraphics[width=\textwidth]{rides_plotted.png}
+    \caption{Ride counts plotted on monthly, weekday, and hourly basis (from left to right).}
+    % \label{fig:png}
+\end{figure}
+
+To investigate the weather dataset we plotted the average temperature over the hierarchy levels month, weekday and hour. The average temperatures get to a maximum of 19 °C in July and August and drop to a minimum of 10 °C in February. The demand pattern follows no clear temperature pattern, since there are maxima in demand in March and April. The mild climate in San Francisco seems to have no influence on the demand since the temperature range allows bike trips all year long.
+
+\begin{figure}[hbtp]
+    \includegraphics[width=\textwidth]{weather_plotted.png}
+    \caption{Temperatures plotted on monthly, weekday, and hourly basis (from left to right).}
+    % \label{fig:png}
+\end{figure}
+
+The heat map displays weekly trips through the combination of weekday and hour dimensions. It highlights that weekdays are busier than weekends during the peak commuting hours of 8 am and 5 pm, possibly indicating the presence of people traveling to work.
+
+\begin{figure}[hbtp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{rides_heatmap.png}
+    \caption{Heat map that shows the relation between weekday (x-axis), hour (y-axis) and trip count (colour).}
+    % \label{fig:png}
+\end{figure}
+
+
+\subsection{Geographical Demand Patterns}
+
+The heatmap plots geographical locations of stations by latitude and longitude. Stations that are used frequently are yellow to red, and stations used sparsely are coloured purple. The main activity takes place at daytime in downtown San Francisco, more specifically in Valencia Street and Market Street. Other frequent stations are located around King Street and the docks. At nighttime stations are less frequently used and turn purple or disappear from the map. Interactive use of the heatmap is not possible via PDF, but with the notebooks in the repository that is linked. 
+
+Plotting the monthly interactive Heatmap shows that trips taken at the beginning of the year are more centralized and trips taken towards the end of the year spread across a greater area, especially in the western city.
+
+\subsection{Key Performance Indicators (KPIs)}
+
+To monitor the fleet operations from a management perspective, we introduced the following KPIs:
+
+First, we investigate the ratio of trips taken by subscribers and non-subscribers to differentiate between these pricing models. The average share of trips taken by subscribers across the whole dataset is around 79\%. Towards the end of the year, the ratio drops significantly. 
+
+To answer the question of how often it is necessary to relocate a bike in a given time interval, we introduced the "Relocations" KPI. Therefore, we compared end stations to subsequent start stations to determine if relocations occurred. There is a peak of relocations at the end of July that could be potentially due to maintenance efforts.
+
+\begin{figure}[hbtp]
+    \centering
+    \includegraphics[width=\textwidth]{relocations.png}
+    \caption{Plot that shows the number of relocations per hour.}
+    % \label{fig:png}
+\end{figure}
+
+
+
+Our third KPI shows the distinct bikes in use per hour. On average, there are around 200-300 bikes in use per hour. Furthermore, the weekday patterns are identifiable. The peak at the end of July could be related to the peak of the "Relocation" KPI. To monitor the distribution we compared trips taken with distinct bikes. Values close to zero indicate a bad distribution of the bikes, whereas values near to one mean that the number of bikes used and trips taken is almost identical and thus indicate a good distribution of the bikes.
+
+As our fourth KPI, we chose the revenue per hour. On average, Lyft has a revenue of about 900 USD per hour in San Francisco. The range of revenue per hour lies between a minimum of 3.49 USD and a maximum of 5760 USD. 
+
+We only show the plot for the number of relocations here as an example. You can find all the other plots in the script.
+\section{Cluster Analysis}
+
+\subsection{Trip Clustering} 
+Our trip clustering was based on the features \texttt{start\_hour}, \texttt{start\_weekday}, \texttt{start\_month}, \texttt{is\_weekend}, \texttt{user\_type} and  \texttt{trip\_duration}. Method wise we used the k-means clustering approach since it guarantees convergence and it 
+scales to large datasets. On the downside we had to choose k the number of cluster manually. Therefore, we did a grid search to identify the elbow. After comparing k=3 and k=4 clusters we preferred to set k=3, because additional cluster mainly just split the \texttt{user\_type} in two different daytime clusters. The 3 resulting clusters all were sufficient in size and easily distinguishable, leading to a high content of information per cluster.
+
+
+\begin{enumerate}[start=0]
+    \item "Early Rides to work": Customers are characterized by a short trip duration compared to Cluster 1. They are taking trips in the typical
+    work hour pattern described in the analysis section, but only in the morning hours. The cluster size of Cluster 0 and Cluster 2 are evenly distributed.
+    \item "Weekend rides": Weekend rides are distinguishable by their weekday distribution, taking trips exclusively on weekends. Users on weekends
+    are taking less short rides and longer trips, assuming that these are related to leisure activities. In terms of customer type the distribution shows no large deviation to the
+    customer trip ratio of around 79\% across the whole dataset.
+    \item "Late rides from work": The most distinctive feature is the time of day as of cluster one, but including only evening hours. Their subscriber share resembles
+    the one of cluster 1 related to typical working hours, with only weekdays being included in the cluster as well.
+\end{enumerate}
+
+Analyzing the clusters created by K-Means algorithm, we presumed that the monthly feature is of less distinctive character, what was confirmed in
+the predictive analysis.
+
+\begin{figure}[hbtp]
+    \includegraphics[width=\textwidth]{rides_cluster.png}   
+    \caption{Trip clustering based on start\_month, start\_weekday, start\_hour, user type, trip duration and workday/weekend.}
+    % \label{fig:png}
+\end{figure}
+
+\subsection{Weather Clustering}
+The following features were used for K-Means Weather Data Clustering: precipitation, maximal temperature, months, weekday and hour. And we identified for k = 3 the clusters:
+
+\begin{enumerate}[start=0]
+    \item "Nightriders": Cluster 0 has a greater share of rides with precipitation and a lower average temperature. Rides are distributed around early morning hours and late evening hours when temperatures are obviously lower. 
+
+    \item "Workers": This cluster reconstructs the work and weekday patterns of the trip clustering. Temperature wise, the cluster is evenly distributed.
+ 
+    \item "Midday rides": Cluster 2 has the highest average temperature and rare precipitation. Trips are taken around midday more often compared to the other clusters. There is no weekday variation. 
+\end{enumerate}
+
+\begin{figure}[hbtp]
+    \includegraphics[width=\textwidth]{weather_cluster.png}
+    \caption{Weather clustering based on month, weekday, hour, max. temperature and precipitation.}
+    % \label{fig:png}
+\end{figure}
+
+The clustering of the weather data shows once again that neither temperature nor precipitation have a significant influence on demand. The identified clusters rather describe temporal correlations.
+
+\subsection{Station Clustering}
+
+The station clusters are computed based on location and usage. Therefore, they show the stations that are heavily frequented, less frequented and an in between cluster. As described in the Geographical Data Analysis, there are stations that can be characterized by being used less frequent and being distributed across a large area. These are grouped together in the cluster called "Low Performer". The "High Performer" - cluster are exactly the stations along the market street together with the eastern stations close to the docks. These are the stations that are frequented the most. Stations in the "Medium Performer" - Cluster are located mainly in downtown as well, but spread around a greater area than the "High Performer" - Cluster. These stations are also popular, but not as popular as the "High Performers" 
+
+\begin{figure}[hbtp]
+    \includegraphics[width=\textwidth]{station_cluster.png}
+    \caption{Station clustering based on location and usage.}
+    % \label{fig:png}
+\end{figure}
+
+
+\section{Predictive Analysis}
+
+\subsection{Preparation}
+First, we created a small data set for predicting the hourly usage of the bike fleet. Bike trip data is aggregated, and the hourly demand is calculated. Location data is not part of the \texttt{prediction\_df} since the hourly demand of the whole bike fleet needs to be determined. Information on station granularity is therefore not considered. The weather data is reduced to the columns \texttt{max\_temp} and \texttt{precip}. 
+
+\subsection{Feature Engineering}
+We added additional features based on the analysis and clustering. Since a significant temporal correlation was discovered, these are for example seasonal features and lag features. We displayed the correlation of these features in the correlation matrix. We used a high correlation with the feature 'number\_of\_trips' for assessing features. 
+
+\subsection{Grid Search Validation and Train/ Test Splitting}
+To find the best combination of parameters for our models, we are using \texttt{GridSearchCV}.  It executes an exhaustive search over all parameters. \texttt{GridSearchCV} splits the data into multiple training and test sets with the same percentage of samples (cross validation). By default, the `KFold` algorithm is used which assumes independent samples and is not suitable for our time series dataset. This is because time series data always has the same sort of dependency to data from the past.
+
+\begin{figure}[hbtp]
+    \includegraphics[width=0.49\textwidth]{kfold_algorithm.png}
+    \hfill
+    \includegraphics[width=0.49\textwidth]{timeseriessplit_algorithm.png}
+    \caption{\texttt{KFold} and \texttt{TimeSeriesSplit} Algorithm. Source: \url{https://scikit-learn.org}}
+    \label{fig:cv}
+\end{figure}
+ 
+As shown in the graph \ref{fig:cv}, the \texttt{KFold} algorithm would not ensure that the model works only on training data, instead, we are using the \texttt{TimeSeriesSplit} algorithm which is a drop-in replacement. \texttt{TimeSeriesSplit} ensures that a fitted model is only evaluated on \enquote{future} data.
+
+For a final evaluation after the grid search, especially for visualization purposes we cannot simply take the train/test samples that are generated using \texttt{TimeSeriesSplit}, because after the best parameters are found, the model is refitted on the whole dataset. Therefore, we preserve a 30\% share of our whole dataset for the final re-evaluation.
+
+\subsection{Predictive Models}
+Three different regression models (Random Forest, K-Nearest Neighbors, and XGBoost Random Forest) were used to predict an outcome based on a dataset. The models were first tested with default parameters, and then fine-tuned hyperparameters using \texttt{GridSearchCV}. For performance evaluation, we chose the R² score as an easy-to-understand measure. The score approximates how well the regression models approximate the real data points. Deviation in model performance was low with around 1\%. The K-Nearest Neighbors model showed the best performance with an R² value of 0.956773. 
+
+\begin{figure}[hbtp]
+    \includegraphics[width=\textwidth]{knn_vs_actual_data.png}
+    \caption{Comparison between values predicted by the KNN model and real test values.}
+    % \label{fig:png}
+\end{figure}
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|l|l|l|}
+    \hline
+        \textbf{Model Name} & \textbf{Unoptimized} & \textbf{Optimized} \\ \hline
+        RandomForestRegressor & 0.931206 & \textit{0.931425} \\ \hline
+        KNeighborsRegressor & 0.920491 & 0.927662 \\ \hline
+        XGBRFRegressor & 0.909585 & 0.930707 \\ \hline
+    \end{tabular}
+    \caption{Comparison of the R² value of the different models.}
+\end{table}
+
+The most important features for the prediction were found to be the lag values from one week before, as well as the \texttt{is\_workday} feature. Temperature and precipitation were found to have little impact on the prediction. Since K-Nearest Neighbors does not allow feature importance analysis, the values were calculated based on \texttt{XGBRFRegressor} and are show in figure \ref{fig:feature_importance}.
+
+\begin{figure}[hbtp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{feature_importance.png}
+    \caption{Feature importance as returned by the XGBoost Random Forest Regressor.}
+    \label{fig:feature_importance}
+\end{figure}
+
+Further improvement could be achieved by using enhanced weather data for the features. The mild climate in San Francisco with low precipitation and temperature ranges allowing riding a bike all year long have a little influence on the demand. Possible enhancements could be achieved through wind strength and direction, since San Francisco's location in a bay area.
+ 
+In case of the selected prediction models, improvements can be achieved by an advanced hyperparameter tuning. Our computational resources are limited, and especially tuning the XGBoost hyperparameters is cost-intensive. For reference, we show a detailed visualization of the effect of hyperparameter tuning  in the appendix \ref{appendix:knn_parameters} (using the KNN model as an example).
+

@@ -1,0 +1,5 @@
+- Silbentrennung zusätzlich an einer Stelle: `"-` 
+- Ausschließlich an der Stelle: `\-`
+- Bindestrich, der die Silbentrennung an anderer Stelle weiterhin erlaubt: `"=`
+- Underscore muss immer escaped werden , weil das Zeichen reserviert ist um Subscripts zu erzeugen!: `\_`
+    - https://www.overleaf.com/learn/latex/Errors/Missing_%24_inserted#Using_underscores_outside_of_math_mode

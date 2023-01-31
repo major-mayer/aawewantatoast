@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+folium = "*"
+pandas = "*"
+numpy = "*"
+geopandas = "*"
+matplotlib = "*"
+scikit-learn = "*"
+seaborn = "*"
+plotly = "*"
+xgboost = "*"
+graphviz = "*"
+
+[dev-packages]
+ipykernel = "*"
+
+[requires]
+python_version = "3"
