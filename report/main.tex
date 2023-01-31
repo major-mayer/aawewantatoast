@@ -1,5 +1,5 @@
-% This is the main document file, it references all chapers that can be found in the "chapters" folder
-\documentclass[12pt, twoside]{scrreprt}
+% This is the main document file, it references all chapers (or sections) that can be found in the "chapters" folder
+\documentclass[12pt]{scrartcl}
 
 % Packages
 \usepackage[babelshorthands]{polyglossia} % English language settings
@@ -67,7 +67,7 @@
 
 % Show the current title and chapter on the top of each (double) page
 \ohead{\headmark}
-\automark[section]{chapter} %[right side]{left side}
+\automark[subsection]{section} %[right side]{left side}
 \ofoot*{\pagemark} %Page number in the footer
 
 % Bibliography
@@ -92,7 +92,7 @@
 % Table of content
 \microtypesetup{protrusion=false}
 \hypertarget{tableofcontents}{}% set the hypertarget
-\bookmark[dest=tableofcontents,level=chapter]{\contentsname}% add the bookmark
+\bookmark[dest=tableofcontents,level=section]{\contentsname}% add the bookmark
 \tableofcontents
 \microtypesetup{protrusion=true}
 
@@ -100,7 +100,7 @@
 % Two command to make sure the link doesn't point to the start of the section (table of contents)
 \clearpage
 \phantomsection
-\addcontentsline{toc}{chapter}{List of figures}
+\addcontentsline{toc}{section}{List of figures}
 
 \microtypesetup{protrusion=false}
 \listoffigures
@@ -118,7 +118,7 @@
 % Bibliography
 \clearpage
 \phantomsection   % Nessecary again, so that the link doesn't point to the conclusion
-\addcontentsline{toc}{chapter}{Literatur}
+\addcontentsline{toc}{section}{Literatur}
 \printbibliography
 
 % Appendix

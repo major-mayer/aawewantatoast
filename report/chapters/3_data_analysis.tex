@@ -1,7 +1,7 @@
-\chapter{Data Analysis}
+\section{Data Analysis}
 
-\section{Descriptive Analysis}
-\subsection{Temporal Demand Patterns} 
+\subsection{Descriptive Analysis}
+\subsubsection{Temporal Demand Patterns} 
 
 We aggregated the variable time on the different hierarchy levels month, weekday and hour. The monthly demand shows no clear trend, probably due to low temperature variation between the seasons in San Francisco. On weekends there is less demand, indicating that bike usage is mainly for trips to and from work. This assumption is supported by the hourly demand patterns. Peaks are at the morning hours around 8am and at around 5pm. Between 1am and 5am, demand is at a minimum. 
 
@@ -29,13 +29,13 @@ The heat map displays weekly trips through the combination of weekday and hour d
 \end{figure}
 
 
-\subsection{Geographical Demand Patterns}
+\subsubsection{Geographical Demand Patterns}
 
 The heatmap plots geographical locations of stations by latitude and longitude. Stations that are used frequently are yellow to red, and stations used sparsely are coloured purple. The main activity takes place at daytime in downtown San Francisco, more specifically in Valencia Street and Market Street. Other frequent stations are located around King Street and the docks. At nighttime stations are less frequently used and turn purple or disappear from the map. Interactive use of the heatmap is not possible via PDF, but with the notebooks in the repository that is linked. 
 
 Plotting the monthly interactive Heatmap shows that trips taken at the beginning of the year are more centralized and trips taken towards the end of the year spread across a greater area, especially in the western city.
 
-\subsection{Key Performance Indicators (KPIs)}
+\subsubsection{Key Performance Indicators (KPIs)}
 
 To monitor the fleet operations from a management perspective, we introduced the following KPIs:
 
@@ -57,7 +57,7 @@ Our third KPI shows the distinct bikes in use per hour. On average, there are ar
 As our fourth KPI, we chose the revenue per hour. On average, Lyft has a revenue of about 900 USD per hour in San Francisco. The range of revenue per hour lies between a minimum of 3.49 USD and a maximum of 5760 USD. 
 
 We only show the plot for the number of relocations here as an example. You can find all the other plots in the script.
-\section{Cluster Analysis}
+\subsection{Cluster Analysis}
 
 \subsection{Trip Clustering} 
 Our trip clustering was based on the features \texttt{start\_hour}, \texttt{start\_weekday}, \texttt{start\_month}, \texttt{is\_weekend}, \texttt{user\_type} and  \texttt{trip\_duration}. Method wise we used the k-means clustering approach since it guarantees convergence and it 
@@ -83,7 +83,7 @@ the predictive analysis.
     % \label{fig:png}
 \end{figure}
 
-\subsection{Weather Clustering}
+\subsubsection{Weather Clustering}
 The following features were used for K-Means Weather Data Clustering: precipitation, maximal temperature, months, weekday and hour. And we identified for k = 3 the clusters:
 
 \begin{enumerate}[start=0]
@@ -102,7 +102,7 @@ The following features were used for K-Means Weather Data Clustering: precipitat
 
 The clustering of the weather data shows once again that neither temperature nor precipitation have a significant influence on demand. The identified clusters rather describe temporal correlations.
 
-\subsection{Station Clustering}
+\subsubsection{Station Clustering}
 
 The station clusters are computed based on location and usage. Therefore, they show the stations that are heavily frequented, less frequented and an in between cluster. As described in the Geographical Data Analysis, there are stations that can be characterized by being used less frequent and being distributed across a large area. These are grouped together in the cluster called "Low Performer". The "High Performer" - cluster are exactly the stations along the market street together with the eastern stations close to the docks. These are the stations that are frequented the most. Stations in the "Medium Performer" - Cluster are located mainly in downtown as well, but spread around a greater area than the "High Performer" - Cluster. These stations are also popular, but not as popular as the "High Performers" 
 
@@ -113,15 +113,15 @@ The station clusters are computed based on location and usage. Therefore, they s
 \end{figure}
 
 
-\section{Predictive Analysis}
+\subsection{Predictive Analysis}
 
-\subsection{Preparation}
+\subsubsection{Preparation}
 First, we created a small data set for predicting the hourly usage of the bike fleet. Bike trip data is aggregated, and the hourly demand is calculated. Location data is not part of the \texttt{prediction\_df} since the hourly demand of the whole bike fleet needs to be determined. Information on station granularity is therefore not considered. The weather data is reduced to the columns \texttt{max\_temp} and \texttt{precip}. 
 
-\subsection{Feature Engineering}
+\subsubsection{Feature Engineering}
 We added additional features based on the analysis and clustering. Since a significant temporal correlation was discovered, these are for example seasonal features and lag features. We displayed the correlation of these features in the correlation matrix. We used a high correlation with the feature 'number\_of\_trips' for assessing features. 
 
-\subsection{Grid Search Validation and Train/ Test Splitting}
+\subsubsection{Grid Search Validation and Train/ Test Splitting}
 To find the best combination of parameters for our models, we are using \texttt{GridSearchCV}.  It executes an exhaustive search over all parameters. \texttt{GridSearchCV} splits the data into multiple training and test sets with the same percentage of samples (cross validation). By default, the `KFold` algorithm is used which assumes independent samples and is not suitable for our time series dataset. This is because time series data always has the same sort of dependency to data from the past.
 
 \begin{figure}[hbtp]
@@ -136,7 +136,7 @@ As shown in the graph \ref{fig:cv}, the \texttt{KFold} algorithm would not ensur
 
 For a final evaluation after the grid search, especially for visualization purposes we cannot simply take the train/test samples that are generated using \texttt{TimeSeriesSplit}, because after the best parameters are found, the model is refitted on the whole dataset. Therefore, we preserve a 30\% share of our whole dataset for the final re-evaluation.
 
-\subsection{Predictive Models}
+\subsubsection{Predictive Models}
 Three different regression models (Random Forest, K-Nearest Neighbors, and XGBoost Random Forest) were used to predict an outcome based on a dataset. The models were first tested with default parameters, and then fine-tuned hyperparameters using \texttt{GridSearchCV}. For performance evaluation, we chose the R² score as an easy-to-understand measure. The score approximates how well the regression models approximate the real data points. Deviation in model performance was low with around 1\%. The K-Nearest Neighbors model showed the best performance with an R² value of 0.956773. 
 
 \begin{figure}[hbtp]
@@ -150,9 +150,9 @@ Three different regression models (Random Forest, K-Nearest Neighbors, and XGBoo
     \begin{tabular}{|l|l|l|}
     \hline
         \textbf{Model Name} & \textbf{Unoptimized} & \textbf{Optimized} \\ \hline
-        RandomForestRegressor & 0.931206 & \textit{0.931425} \\ \hline
-        KNeighborsRegressor & 0.920491 & 0.927662 \\ \hline
-        XGBRFRegressor & 0.909585 & 0.930707 \\ \hline
+        RandomForestRegressor & 0.954284 & 0.954296 \\ \hline
+        KNeighborsRegressor & 0.955088 & \textbf{0.956773} \\ \hline
+        XGBRFRegressor & 0.946470 & 0.955571 \\ \hline
     \end{tabular}
     \caption{Comparison of the R² value of the different models.}
 \end{table}

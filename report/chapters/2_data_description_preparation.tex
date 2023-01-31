@@ -1,7 +1,7 @@
-\chapter{Data Description and Preparation}
+\section{Data Description and Preparation}
 To conduct the data analysis, we utilized the following data sets: \href{run:../../data/sf_2019.csv}{sf\_2019.csv}, \href{run:../../data/weather_hourly_sf.csv}{weather\_hourly\_sf.csv}, and \href{run:../../data/Sf_2019_full.csv}{Sf\_2019\_full.csv}. In the following section, we will provide an overview of the data and explain the steps we took to prepare it.
 
-\section{Ride Data}
+\subsection{Ride Data}
 The data for the bike rides is located in the \href{run:../../data/sf_2019.csv}{sf\_2019.csv} file and includes 2,506,982 trips that were taken in San Francisco in 2019. The file provides us with information about the start and end time, start and end station, as well as the user type, which can be either a subscriber or a customer. 
 
 \begin{figure}[h]
@@ -17,7 +17,7 @@ To improve our further analysis, we then added additional features to the datase
 We then combined the external data set \href{run:../../data/Sf_2019_full.csv}{Sf\_2019\_full.csv} with the trips data set. Therefore, we created a look-up table including the \texttt{station\_id} as well as the station's actual geo coordinates from external data set and joined the geo data on the original trip data set. 
 The enhanced geo features allowed us to refine the dataset to only include data from stations located in San Francisco. Trips with empty \texttt{station\_id} values are assumed to happen within the San Francisco area. That applies to around 3 \% of all trips and has a noticeable impact on the overall demand. We also removed any trips with suspicious data constellations in the trip duration as negative trip durations or outliers. We eliminated the top 0.5\% of trip durations, which were all trips that lasted longer than two hours. 
 
-\section{Weather Data}
+\subsection{Weather Data}
 % added column names and the necessary time shift to match the trip data
 The file \href{run:../../data/weather_hourly_sf.csv}{weather\_hourly\_sf.csv} gives us information about the weather in San Francisco in 2019. It includes the columns \texttt{date\_time}, \texttt{max\_temp}, \texttt{max\_temp} and the precipitation \texttt{precip}. The values of \texttt{date\_time} are UTC timestamps and needed to be shifted by -8 hours to match the ride data.
 
